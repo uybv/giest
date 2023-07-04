@@ -1,0 +1,392 @@
+<div id="wrapper" [class.loading]="isLoading">
+  <div id="page-content-wrapper">
+    <div class="container-fluid pt-3 pb-3">
+      <div id="condition-panel">
+        <div class="accordion">
+          <div class="accordion-item">
+            <div class="accordion-header">
+              <div class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pn-base" aria-expanded="true" aria-controls="pn-base">
+                {{characterType}} | {{weaponType}}
+              </div>
+            </div>
+            <div id="pn-base" class="accordion-collapse collapse" aria-labelledby="pn-base-header">
+              <div class="accordion-body">
+                <div class="row">
+                  <div class="col-4">
+                    <label class="form-label">Character</label>
+                    <select [(ngModel)]="characterType" class="form-control" name="characterType" (change)="changeCharacter()">
+                      <option *ngFor="let charType of master.characterTypes" [value]="charType">{{charType}}</option>
+                    </select>
+                  </div>
+                  <div class="col-4">
+                    <label class="form-label">Weapon</label>
+                    <select [(ngModel)]="weaponType" class="form-control" name="weaponType">
+                      <option *ngFor="let weaponType of master.weaponTypes" [value]="weaponType">{{weaponType}}</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <div class="accordion-header">
+              <div class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#pn-artifacts" aria-expanded="false" aria-controls="pn-artifacts">
+                <!--div class="row" id="artifacts-list">
+                  <div class="col-6">
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item">
+                        <div class="row">
+                          <div class="col-2">Flower</div>
+                          <div class="col-10">{{formatValueTypeList(artifacts.flowerTypes)}}</div>
+                        </div>
+                      </li>
+                      <li class="list-group-item">
+                        <div class="row">
+                          <div class="col-2">Plume</div>
+                          <div class="col-10">{{formatValueTypeList(artifacts.plumeTypes)}}</div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="col-6">
+                    <ul class="list-group list-group-flush">
+                      <li class="list-group-item">
+                        <div class="row">
+                          <div class="col-2">Sand</div>
+                          <div class="col-10">{{formatValueTypeList(artifacts.sandTypes)}}</div>
+                        </div>
+                      </li>
+                      <li class="list-group-item">
+                        <div class="row">
+                          <div class="col-2">Goblet</div>
+                          <div class="col-10">{{formatValueTypeList(artifacts.gobletTypes)}}</div>
+                        </div>
+                      </li>
+                      <li class="list-group-item">
+                        <div class="row">
+                          <div class="col-2">Circlet</div>
+                          <div class="col-10">{{formatValueTypeList(artifacts.circletTypes)}}</div>
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </div-->
+                Artifacts
+              </div>
+            </div>
+            <div id="pn-artifacts" class="accordion-collapse collapse" aria-labelledby="pn-artifacts-header">
+              <div class="accordion-body">
+                <div class="row">
+                  <div class="col-2">
+                    <div class="list-group">
+                      <div class="list-group-item list-group-item-primary">
+                        <label class="form-label m-0">Flower</label>
+                      </div>
+                      <div class="list-group-item" *ngFor="let tys of artifacts.flowerTypes;">
+                        <div class="form-check form-switch m-0">
+                          <input class="form-check-input" type="checkbox" id="flower-{{tys.key}}" [(ngModel)]="tys.value" />
+                          <label class="form-check-label" for="flower-{{tys.key}}">{{tys.key | valueName}}</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-2">
+                    <div class="list-group">
+                      <div class="list-group-item list-group-item-primary">
+                        <label class="form-label m-0">Plume</label>
+                      </div>
+                      <div class="list-group-item" *ngFor="let tys of artifacts.plumeTypes;">
+                        <div class="form-check form-switch m-0">
+                          <input class="form-check-input" type="checkbox" id="plume-{{tys.key}}" [(ngModel)]="tys.value" />
+                          <label class="form-check-label" for="plume-{{tys.key}}">{{tys.key | valueName}}</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-2">
+                    <div class="list-group">
+                      <div class="list-group-item list-group-item-primary">
+                        <label class="form-label m-0">Sand</label>
+                      </div>
+                      <div class="list-group-item" *ngFor="let tys of artifacts.sandTypes;">
+                        <div class="form-check form-switch m-0">
+                          <input class="form-check-input" type="checkbox" id="sand-{{tys.key}}" [(ngModel)]="tys.value" />
+                          <label class="form-check-label" for="sand-{{tys.key}}">{{tys.key | valueName}}</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-2">
+                    <div class="list-group">
+                      <div class="list-group-item list-group-item-primary">
+                        <label class="form-label m-0">Goblet</label>
+                      </div>
+                      <div class="list-group-item" *ngFor="let tys of artifacts.gobletTypes;">
+                        <div class="form-check form-switch m-0">
+                          <input class="form-check-input" type="checkbox" id="goblet-{{tys.key}}" [(ngModel)]="tys.value" />
+                          <label class="form-check-label" for="goblet-{{tys.key}}">{{tys.key | valueName}}</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-2">
+                    <div class="list-group">
+                      <div class="list-group-item list-group-item-primary">
+                        <label class="form-label m-0">Circlet</label>
+                      </div>
+                      <div class="list-group-item" *ngFor="let tys of artifacts.circletTypes;">
+                        <div class="form-check form-switch m-0">
+                          <input class="form-check-input" type="checkbox" id="circlet-{{tys.key}}" [(ngModel)]="tys.value" />
+                          <label class="form-check-label" for="circlet-{{tys.key}}">{{tys.key | valueName}}</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-2">
+                    <div class="list-group">
+                      <div class="list-group-item list-group-item-primary">
+                        <label class="form-label m-0">Sub Value</label>
+                      </div>
+                      <div class="list-group-item">
+                        <div class="input-group">
+                          <span class="input-group-text">Up Count</span>
+                          <input [(ngModel)]="artifacts.subUpCount" name="subUpCount" type="number" class="form-control" placeholder="Count" aria-label="Count">
+                        </div>
+                      </div>
+                      <div class="list-group-item" *ngFor="let tys of artifacts.subStatTypes;">
+                        <div class="form-check form-switch m-0">
+                          <input class="form-check-input" type="checkbox" id="sub-stat-{{tys.key}}" [(ngModel)]="tys.value" />
+                          <label class="form-check-label" for="sub-stat-{{tys.key}}">{{tys.key | valueName}}</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <div class="accordion-header">
+              <div type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pn-buffs" aria-expanded="true" aria-controls="pn-buffs">
+                Buffs
+              </div>
+            </div>
+            <div id="pn-buffs" class="accordion-collapse collapse" aria-labelledby="pn-buffs-header">
+              <div class="accordion-body">
+                <div class="input-group mb-1" *ngFor="let b of buffs; let idx = index">
+                  <button class="btn btn-danger" type="button" (click)="removeBuff(idx)"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
+                  <select [(ngModel)]="b.type" class="form-control" name="buff-type-{{idx}}">
+                    <option *ngFor="let vType of master.valueTypes" [value]="vType">{{vType | valueName}}</option>
+                  </select>
+                  <input [(ngModel)]="b.value" type="number" class="form-control" name="buff-value-{{idx}}" aria-label="Value" placeholder="Value" aria-placeholder="Value">
+                  <input [(ngModel)]="b.name" type="text" class="form-control" name="buff-note-{{idx}}" aria-label="Note" placeholder="Note" aria-placeholder="Note">
+                  <div class="input-group-text">
+                    <input [(ngModel)]="b.isEffect" class="form-check-input mt-0" type="checkbox" aria-label="Is Effect">
+                    <span>&nbsp;<i class="fa fa-plus" aria-hidden="true"></i>&nbsp;DF</span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-12 text-right">
+                    <button class="btn btn-primary" type="button" (click)="addBuff()"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <div class="accordion-header">
+              <div type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#pn-conditions" aria-expanded="true" aria-controls="pn-conditions">
+                Others
+              </div>
+            </div>
+            <div id="pn-conditions" class="accordion-collapse collapse" aria-labelledby="pn-conditions-header">
+              <div class="accordion-body">
+                <div class="row">
+                  <div class="col-2">
+                    <label class="form-label">Dmg Type</label>
+                    <select [(ngModel)]="dmgType" class="form-control" name="dmgType">
+                      <option *ngFor="let dt of master.dmgTypes" [value]="dt">{{dt}}</option>
+                    </select>
+                  </div>
+                  <div class="col-2">
+                    <label class="form-label">Result Type</label>
+                    <select [(ngModel)]="resultType" class="form-control" name="resultType">
+                      <option *ngFor="let rt of master.resultTypes" [value]="rt">{{rt}}</option>
+                    </select>
+                  </div>
+                  <div class="col-2">
+                    <label class="form-label">Result Count</label>
+                    <input [(ngModel)]="resultCount" type="number" name="resultCount" class="form-control" />
+                  </div>
+                  <div class="col-12 mt-5">
+                    <div class="list-group">
+                      <div class="list-group-item list-group-item-primary">
+                        <label class="form-label m-0">Conditions</label>
+                      </div>
+                      <div class="list-group-item" *ngFor="let c of conditionValues; let idx = index">
+                        <div class="input-group">
+                          <button class="btn btn-danger" type="button" (click)="removeCondition(idx)"><i class="fa fa-times-circle" aria-hidden="true"></i></button>
+                          <select [(ngModel)]="c.type" class="form-control" name="condition-type-{{idx}}">
+                            <option *ngFor="let vType of master.oprValues" [value]="vType">{{vType | valueName}}</option>
+                          </select>
+                          <select [(ngModel)]="c.opr" class="form-control" name="condition-opr-{{idx}}">
+                            <option *ngFor="let vOpr of master.oprTypes" [value]="vOpr">{{vOpr}}</option>
+                          </select>
+                          <input [(ngModel)]="c.value" type="number" class="form-control" name="condition-value-{{idx}}" aria-label="Value" placeholder="Value" aria-placeholder="Value">
+                        </div>
+                      </div>
+                      <div class="list-group-item">
+                        <button class="btn btn-primary" type="button" (click)="addCondition()"><i class="fa fa-plus-circle" aria-hidden="true"></i></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row pt-3">
+          <div class="col-6">
+            <button type="button" class="btn btn-primary" (click)="calculate()" [disabled]="isLoading">
+              <span *ngIf="isLoading">
+                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Loading...
+              </span>
+              <span *ngIf="!isLoading">Calculate</span>
+            </button>
+          </div>
+          <div class="col-6">
+            <div class="btn-group float-end" role="group">
+              <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalData" (click)="openSnap()">Load</button>
+              <!--button type="button" class="btn btn-success" (click)="saveSnap()">Save</button-->
+            </div>
+            <div class="modal fade" id="modalData" tabindex="-1" aria-labelledby="model-lbl" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="model-lbl">JSON DATA</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <textarea class="form-control" name="data" rows="12" [(ngModel)]="dataStr"></textarea>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="loadSnap()">Save</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="results" class="pt-3 pb-5">
+        <div class="row">
+          <div class="col-12">
+            <table class="table table-bordered">
+              <thead class="table-dark">
+                <tr>
+                  <th *ngIf="!columnIsHide('ATK')" class="text-center" rowspan="2">ATK</th>
+                  <th *ngIf="!columnIsHide('DEF')" class="text-center" rowspan="2">DEF</th>
+                  <th *ngIf="!columnIsHide('HP')" class="text-center" rowspan="2">HP</th>
+                  <th *ngIf="!columnIsHide('ER')" class="text-center" rowspan="2">ER</th>
+                  <th *ngIf="!columnIsHide('EM')" class="text-center" rowspan="2">EM</th>
+                  <th *ngIf="!columnIsHide('FLAT DMG')" class="text-center" rowspan="2">FLAT DMG</th>
+                  <th *ngIf="!columnIsHide('CRIT')" class="text-center" rowspan="2">CRIT</th>
+                  <th *ngIf="!columnIsHide('RATE')" class="text-center" rowspan="2">RATE</th>
+                  <th *ngIf="!columnIsHide('DMG BONUS')" class="text-center" rowspan="2">DMG BONUS</th>
+                  <th colspan="3" class="text-center">DAMAGES</th>
+                  <th *ngIf="!columnIsHide('ARTIFACTS')" colspan="3" class="text-center">ARTIFACTS</th>
+                  <th [attr.colspan]="this.condition.search.subStatTypes.length" class="text-center">SUB UP</th>
+                  <th *ngIf="!columnIsHide('BALANCE')" colspan="3" class="text-center">BALANCE</th>
+                </tr>
+                <tr>
+                  <th class="text-center">NON</th>
+                  <th class="text-center">CRIT</th>
+                  <th class="text-center">AVG</th>
+                  <th *ngIf="!columnIsHide('ARTIFACTS')" class="text-center">Sand</th>
+                  <th *ngIf="!columnIsHide('ARTIFACTS')" class="text-center">Goblet</th>
+                  <th *ngIf="!columnIsHide('ARTIFACTS')" class="text-center">Circlet</th>
+                  <ng-container *ngIf="this.condition.search.subStatTypes.length > 0">
+                    <th class="text-center" *ngFor="let k of this.condition.search.subStatTypes">{{k | valueName}}</th>
+                  </ng-container>
+                  <th *ngIf="!columnIsHide('BALANCE')" class="text-center">%ATK</th>
+                  <th *ngIf="!columnIsHide('BALANCE')" class="text-center">%CRIT</th>
+                  <th *ngIf="!columnIsHide('BALANCE')" class="text-center">%DMG</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let dmg of results">
+                  <td *ngIf="!columnIsHide('ATK')">
+                    <span *ngIf="configViews.showDefault && dmg.simulator.character.atk != dmg.simulator.atk"><span>{{dmg.simulator.character.atk | number : '1.0-0'}}</span> &#187; </span>
+                    <span class="text-success">{{dmg.simulator.atk | number : '1.0-0'}}</span>
+                  </td>
+                  <td *ngIf="!columnIsHide('DEF')">
+                    <span *ngIf="configViews.showDefault && dmg.simulator.character.def != dmg.simulator.def"><span>{{dmg.simulator.character.def | number : '1.0-0'}}</span> &#187; </span>
+                    <span class="text-success">{{dmg.simulator.def | number : '1.0-0'}}</span>
+                  </td>
+                  <td *ngIf="!columnIsHide('HP')">
+                    <span *ngIf="configViews.showDefault && dmg.simulator.character.hp != dmg.simulator.hp"><span>{{dmg.simulator.character.hp | number : '1.0-0'}}</span> &#187; </span>
+                    <span class="text-success">{{dmg.simulator.hp | number : '1.0-0'}}</span>
+                  </td>
+                  <td *ngIf="!columnIsHide('ER')">
+                    <span *ngIf="configViews.showDefault && dmg.simulator.character.er != dmg.simulator.er"><span>{{dmg.simulator.character.er | percent : '1.1-1'}}</span> &#187; </span>
+                    <span class="text-success">{{dmg.simulator.er | percent : '1.1-1'}}</span>
+                  </td>
+                  <td *ngIf="!columnIsHide('EM')">
+                    <span *ngIf="configViews.showDefault && dmg.simulator.character.em != dmg.simulator.em"><span>{{dmg.simulator.character.em | number : '1.0-0'}}</span> &#187; </span>
+                    <span class="text-success">{{dmg.simulator.em | number : '1.0-0'}}</span>
+                  </td>
+                  <td *ngIf="!columnIsHide('FLAT DMG')">
+                    <span class="text-success">{{dmg.simulator.flatDmg | number : '1.0-0'}}</span>
+                  </td>
+                  <td *ngIf="!columnIsHide('CRIT')">
+                    <span *ngIf="configViews.showDefault && dmg.simulator.character.crit != dmg.simulator.crit"><span>{{dmg.simulator.character.crit | percent : '1.1-1'}}</span> &#187; </span>
+                    <span class="text-success">{{dmg.simulator.crit | percent : '1.1-1'}}</span>
+                  </td>
+                  <td *ngIf="!columnIsHide('RATE')">
+                    <span *ngIf="configViews.showDefault && dmg.simulator.character.rate != dmg.simulator.rate"><span>{{dmg.simulator.character.rate | percent : '1.1-1'}}</span> &#187; </span>
+                    <span class="text-success">{{dmg.simulator.rate | percent : '1.1-1'}}</span>
+                  </td>
+                  <td *ngIf="!columnIsHide('DMG BONUS')">
+                    <span *ngIf="configViews.showDefault && dmg.simulator.character.dmgBonus != dmg.simulator.dmgBonus"><span>{{dmg.simulator.character.dmgBonus | percent : '1.1-1'}}</span> &#187; </span>
+                    <span class="text-success">{{dmg.simulator.dmgBonus | percent : '1.1-1'}}</span>
+                  </td>
+                  <td>{{dmg.dmgNormal | number : '1.0-0'}}</td>
+                  <td>{{dmg.dmgCrit | number : '1.0-0'}}</td>
+                  <td>{{dmg.dmgAvg | number : '1.0-0'}}</td>
+                  <td *ngIf="!columnIsHide('ARTIFACTS')">{{dmg.simulator.character.artifact.sand | valueName}}</td>
+                  <td *ngIf="!columnIsHide('ARTIFACTS')">{{dmg.simulator.character.artifact.goblet | valueName}}</td>
+                  <td *ngIf="!columnIsHide('ARTIFACTS')">{{dmg.simulator.character.artifact.circlet | valueName}}</td>
+                  <ng-container *ngIf="this.condition.search.subStatTypes.length > 0">
+                    <td class="text-center" *ngFor="let k of this.condition.search.subStatTypes">{{dmg.simulator.character.artifact.subUps[k] | number : '1.0-0'}}</td>
+                  </ng-container>
+                  <td *ngIf="!columnIsHide('BALANCE')">{{(dmg.simulator.atk / dmg.simulator.character.base.AtkFlat) | percent : '1.1-1'}}</td>
+                  <td *ngIf="!columnIsHide('BALANCE')">{{dmg.simulator.crit | percent : '1.1-1'}}</td>
+                  <td *ngIf="!columnIsHide('BALANCE')">{{dmg.simulator.dmgBonus | percent : '1.1-1'}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="config-panel">
+    <div class="container-fluid p-3">
+      <div class="row">
+        <div class="col-1">
+          <div class="form-check form-check-inline form-switch">
+            <input class="form-check-input" type="checkbox" id="view-default" [(ngModel)]="configViews.showDefault" (change)="updateConfigViews()" />
+            <label class="form-check-label" for="view-default">DEFAULT</label>
+          </div>
+        </div>
+        <div class="col-11">
+          <div class="form-check form-check-inline form-switch" *ngFor="let tys of configViews.columns;">
+            <input class="form-check-input" type="checkbox" id="view-column-{{tys.key}}" [(ngModel)]="tys.value" (change)="updateConfigViews()" />
+            <label class="form-check-label" for="view-column-{{tys.key}}">{{tys.key}}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,70 @@
+/* You can add global styles to this file, and also import other style files */
+
+//$bgColor: #212529;
+//$color: #fff;
+$bgColor: #ffffff;
+$color: #212529;
+$pnConfigHeight: 50px;
+//$pnConfigBgColor: #0a0122;
+$pnConfigBgColor: #ececec;
+
+* {
+    font-size: 12px;
+    font-family: Tahoma, Verdana, Geneva, sans-serif;
+}
+
+body {
+    background-color: $bgColor;
+}
+
+#wrapper {
+  position: relative;
+  &::after {
+    display: none;
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: none;
+    background-color: #000;
+    opacity: 0.1;
+    transition: all ease 200ms;
+  }
+  /*
+  &.loading::after {
+    display: block;
+  }
+  */
+}
+
+#condition-panel {
+    label {
+        color: $color;
+    }
+}
+
+#config-panel {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: $pnConfigBgColor;
+    box-shadow: 0 0 4px 0px #fff;
+    label {
+        color: $color;
+    }
+}
+
+#artifacts-list {
+  width: 100%;
+  ul {
+    background-color: transparent !important;
+    > li {
+      background-color: transparent !important;
+    }
+  }
+}
+
+

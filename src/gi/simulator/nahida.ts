@@ -1,5 +1,5 @@
 import * as genshindb from 'genshin-db';
-import { Condition, Simulator } from '@gi/core/simulator';
+import { Condition, IcdType, Simulator } from '@gi/core/simulator';
 import { AdditiveType } from '@gi/core/calculator';
 
 export class Nahida extends Simulator {
@@ -9,9 +9,13 @@ export class Nahida extends Simulator {
   }
 
   get baseDmg(): number {
-    return this.atk * 1.858 + this.em * 3.715;
+    let talents = genshindb.talents(this.character.charType);
+    var talentParams = talents?.combat3.attributes.parameters;
+    return this.atk * (talentParams != undefined ? talentParams["param3"][9] : 1.858) +
+      this.em * (talentParams != undefined ? talentParams["param4"][9] : 3.715);
   }
 
+  /*
   override get em(): number {
     let addEm = super.em * 0.25;
     if (addEm > 250) {
@@ -19,6 +23,7 @@ export class Nahida extends Simulator {
     }
     return super.em + addEm;
   }
+  */
 
   override get dmgBonus(): number {
     let emAdd = this.em - 200;
@@ -46,6 +51,10 @@ export class Nahida extends Simulator {
 
   override get additiveType(): AdditiveType {
     return AdditiveType.Spread;
+  }
+
+  override get icdType(): IcdType {
+    return IcdType.None;
   }
 
 }

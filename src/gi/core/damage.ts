@@ -1,7 +1,7 @@
 import { CircletValueType, GobletValueType, SandValueType, SubValueType } from './artifact';
 import { ADDITIVE, AdditiveType, AMPLIFYING, AmplifyingType, LEVEL_MULTIPLIER, TRANSFORMATIVE } from './calculator';
 import { Enemy } from './enemy';
-import { Simulator } from './simulator';
+import { Combo, IcdType, Simulator } from './simulator';
 
 export class DamageResult {
   constructor(
@@ -11,7 +11,8 @@ export class DamageResult {
     public subUps: Record<SubValueType, number>,
     public dmgNormal: number,
     public dmgCrit: number,
-    public dmgAvg: number
+    public dmgAvg: number,
+    public dmgCombo: number
     ) {
   }
 }
@@ -56,35 +57,75 @@ export class Damage {
     return 1 + (this.simulator.crit * this.simulator.rate);
   }
 
-  private get coreDmg(): number {
-    return ((this.simulator.baseDmg * this.simulator.specialMultiplier) + this.simulator.flatDmg)
+  private calDmg(combo: Combo): number {
+    let dmg = ((combo.baseDmg * this.simulator.specialMultiplier) + this.simulator.flatDmg + (combo.withReact ? this.additiveReaction : 0))
       * (1 + this.simulator.dmgBonus - this.enemy.damageReduction)
       * this.enemyDefMult
       * this.enemyResMult
-      * this.amplifyingReaction
-      + this.transformativeReaction;
+      * (combo.withReact ? this.amplifyingReaction : 1)
+      + (combo.withReact ? this.transformativeReaction : 0);
+    return dmg * combo.hitCount;
+  }
+
+  private get coreDmg(): number {
+    return this.calDmg({
+      baseDmg: this.simulator.baseDmg,
+      hitCount: 1,
+      withReact: false
+    });
   }
   private get coreDmgWithAddition(): number {
-    return ((this.simulator.baseDmg * this.simulator.specialMultiplier) + this.simulator.flatDmg + this.additiveReaction)
-      * (1 + this.simulator.dmgBonus - this.enemy.damageReduction)
-      * this.enemyDefMult
-      * this.enemyResMult
-      * this.amplifyingReaction
-      + this.transformativeReaction;
+    return this.calDmg({
+      baseDmg: this.simulator.baseDmg,
+      hitCount: 1,
+      withReact: true
+    });
   }
 
   get dmgNormal(): number {
-    return (this.coreDmg * 2 + this.coreDmgWithAddition) / 3;
+    if (this.simulator.icdType == IcdType.None) {
+      return this.coreDmgWithAddition;
+    } else if (this.simulator.icdType == IcdType.Normal) {
+      return (this.coreDmg * 2 + this.coreDmgWithAddition) / 3;
+    } else if (this.simulator.icdType == IcdType.Half) {
+      return (this.coreDmg + this.coreDmgWithAddition) / 2;
+    }
+    return this.coreDmg;
   }
   get dmgCrit(): number {
     var dmgCrit = this.coreDmg * this.crit;
     var dmgCritWithAddition = this.coreDmgWithAddition * this.crit;
-    return (dmgCrit * 2 + dmgCritWithAddition) / 3;
+
+    if (this.simulator.icdType == IcdType.None) {
+      return dmgCritWithAddition;
+    } else if (this.simulator.icdType == IcdType.Normal) {
+      return (dmgCrit * 2 + dmgCritWithAddition) / 3;
+    } else if (this.simulator.icdType == IcdType.Half) {
+      return (dmgCrit + dmgCritWithAddition) / 2;
+    }
+
+    return dmgCrit;
   }
   get dmgAvg(): number {
     var dmgAvg = this.coreDmg * this.critAvg;
     var dmgAvgWithAddition = this.coreDmgWithAddition * this.critAvg;
-    return (dmgAvg * 2 + dmgAvgWithAddition) / 3;
+
+    if (this.simulator.icdType == IcdType.None) {
+      return dmgAvgWithAddition;
+    } else if (this.simulator.icdType == IcdType.Normal) {
+      return (dmgAvg * 2 + dmgAvgWithAddition) / 3;
+    } else if (this.simulator.icdType == IcdType.Half) {
+      return (dmgAvg + dmgAvgWithAddition) / 2;
+    }
+
+    return dmgAvg;
+  }
+
+  get dmgCombo(): number {
+    var totalDmg = this.simulator.combo
+      .map(c => this.calDmg(c))
+      .reduce((a, b) => a + b);
+    return totalDmg * this.critAvg;
   }
 
 }

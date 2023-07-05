@@ -294,7 +294,7 @@
                   <th *ngIf="!columnIsHide('CRIT')" class="text-center" rowspan="2">CRIT</th>
                   <th *ngIf="!columnIsHide('RATE')" class="text-center" rowspan="2">RATE</th>
                   <th *ngIf="!columnIsHide('DMG BONUS')" class="text-center" rowspan="2">DMG BONUS</th>
-                  <th colspan="3" class="text-center">DAMAGES</th>
+                  <th colspan="4" class="text-center">DAMAGES</th>
                   <th *ngIf="!columnIsHide('ARTIFACTS')" colspan="3" class="text-center">ARTIFACTS</th>
                   <th [attr.colspan]="this.condition.search.subStatTypes.length" class="text-center">SUB UP</th>
                   <th *ngIf="!columnIsHide('BALANCE')" colspan="3" class="text-center">BALANCE</th>
@@ -303,6 +303,7 @@
                   <th class="text-center">NON</th>
                   <th class="text-center">CRIT</th>
                   <th class="text-center">AVG</th>
+                  <th class="text-center">COMBO</th>
                   <th *ngIf="!columnIsHide('ARTIFACTS')" class="text-center">Sand</th>
                   <th *ngIf="!columnIsHide('ARTIFACTS')" class="text-center">Goblet</th>
                   <th *ngIf="!columnIsHide('ARTIFACTS')" class="text-center">Circlet</th>
@@ -354,6 +355,7 @@
                   <td>{{dmg.dmgNormal | number : '1.0-0'}}</td>
                   <td>{{dmg.dmgCrit | number : '1.0-0'}}</td>
                   <td>{{dmg.dmgAvg | number : '1.0-0'}}</td>
+                  <td>{{dmg.dmgCombo | number : '1.0-0'}}</td>
                   <td *ngIf="!columnIsHide('ARTIFACTS')">{{dmg.simulator.character.artifact.sand | valueName}}</td>
                   <td *ngIf="!columnIsHide('ARTIFACTS')">{{dmg.simulator.character.artifact.goblet | valueName}}</td>
                   <td *ngIf="!columnIsHide('ARTIFACTS')">{{dmg.simulator.character.artifact.circlet | valueName}}</td>

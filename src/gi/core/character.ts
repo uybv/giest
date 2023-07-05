@@ -15,6 +15,7 @@ export enum CharacterType {
   YaeMiko = 'YaeMiko',
   Nahida = 'Nahida',
   Alhaitham = 'Alhaitham',
+  Xiangling = 'Xiangling'
 };
 
 export interface ICharacter {

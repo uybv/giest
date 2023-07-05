@@ -1,13 +1,14 @@
 import { Damage, DamageResult } from './core/damage';
 import { Condition, ConditionValue, DmgType, OprType, ResultType, Simulator } from './core/simulator';
 import { Ayaka } from './simulator/ayaka';
-import { CharacterType } from './core/character';
+import { Character, CharacterType } from './core/character';
 import { ValueType } from './core/common';
 import { CircletValueType, GobletValueType, SandValueType, SubValueType } from './core/artifact';
 import { Xiao } from './simulator/xiao';
 import { Miko } from './simulator/miko';
 import { Nahida } from './simulator/nahida';
 import { Alhaitham } from './simulator/alhaitham';
+import { Xiangling } from './simulator/xiangling';
 
 export class Estimate {
 
@@ -25,6 +26,8 @@ export class Estimate {
       return new Nahida(condition);
     } else if (condition.character == CharacterType.Alhaitham) {
       return new Alhaitham(condition);
+    } else if (condition.character == CharacterType.Xiangling) {
+      return new Xiangling(condition);
     }
     throw new Error('Character not found.');
   }
@@ -50,7 +53,8 @@ export class Estimate {
             sub,
             cal.dmgNormal,
             cal.dmgCrit,
-            cal.dmgAvg
+            cal.dmgAvg,
+            cal.dmgCombo
             );
         }
         return undefined;
@@ -71,6 +75,13 @@ export class Estimate {
         } else if (condition.search.dmgType == DmgType.Avg) {
           return results.sort((a, b) => {
             if (a.dmgAvg > b.dmgAvg) {
+              return -1;
+            }
+            return 0;
+          }).slice(0, condition.results.count);
+        } else if (condition.search.dmgType == DmgType.Combo) {
+          return results.sort((a, b) => {
+            if (a.dmgCombo > b.dmgCombo) {
               return -1;
             }
             return 0;
@@ -113,6 +124,24 @@ export class Estimate {
             }
             return 0;
           });
+        } else if (condition.search.dmgType == DmgType.Combo) {
+          return mains.map(m => {
+            let top = results
+              .filter(r => r.sand == m.sand && r.goblet == m.goblet && r.circlet == m.circlet)
+              .sort((a, b) => {
+                if (a.dmgCombo > b.dmgCombo) {
+                  return -1;
+                }
+                return 0;
+              });
+            return top[0];
+          })
+            .sort((a, b) => {
+              if (a.dmgCombo > b.dmgCombo) {
+                return -1;
+              }
+              return 0;
+            });
         }
       }
     }

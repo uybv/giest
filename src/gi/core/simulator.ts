@@ -7,6 +7,7 @@ import { WeaponType } from './weapon';
 export enum DmgType {
   Avg = 'Avg',
   Crit = 'Crit',
+  Combo = 'Combo'
 };
 
 export enum ResultType {
@@ -19,6 +20,18 @@ export enum OprType {
   GT = '>',
   Equal = '=',
 };
+
+export enum IcdType {
+  None = 'None',
+  Normal = 'Normal',
+  Half = 'Half'
+}
+
+export interface Combo {
+  baseDmg: number;
+  hitCount: number;
+  withReact: boolean;
+}
 
 export interface ConditionValue {
   type: ValueType;
@@ -63,6 +76,8 @@ export interface ISimulator {
   get gobletTypes(): GobletValueType[];
   get circletTypes(): CircletValueType[];
   get subStatTypes(): SubValueType[];
+
+  get icdType(): IcdType;
 
   get isValid(): boolean;
 
@@ -129,6 +144,10 @@ export abstract class Simulator implements ISimulator {
 
   get character(): Character {
     return this._character;
+  }
+
+  get icdType(): IcdType {
+    return IcdType.Normal;
   }
 
   get isValid(): boolean {
@@ -226,4 +245,19 @@ export abstract class Simulator implements ISimulator {
   }
 
   abstract get baseDmg(): number;
+
+  get combo(): Combo[] {
+    return [
+      {
+        baseDmg: this.baseDmg,
+        hitCount: 1,
+        withReact: true
+      },
+      {
+        baseDmg: this.baseDmg,
+        hitCount: 2,
+        withReact: false
+      }
+    ];
+  }
 }

@@ -1,0 +1,191 @@
+{
+  "character": "Alhaitham",
+  "weapon": "LightOfFoliarIncision",
+  "artifacts": {
+    "flowerTypes": [
+      {
+        "key": "HpFlat",
+        "value": true
+      }
+    ],
+    "plumeTypes": [
+      {
+        "key": "AtkFlat",
+        "value": true
+      }
+    ],
+    "sandTypes": [
+      {
+        "key": "AtkPercent",
+        "value": false
+      },
+      {
+        "key": "DefPercent",
+        "value": false
+      },
+      {
+        "key": "EmFlat",
+        "value": true
+      },
+      {
+        "key": "Er",
+        "value": false
+      },
+      {
+        "key": "HpPercent",
+        "value": false
+      }
+    ],
+    "gobletTypes": [
+      {
+        "key": "AtkPercent",
+        "value": false
+      },
+      {
+        "key": "DefPercent",
+        "value": false
+      },
+      {
+        "key": "HpPercent",
+        "value": false
+      },
+      {
+        "key": "EmFlat",
+        "value": true
+      },
+      {
+        "key": "DmgBonus",
+        "value": true
+      },
+      {
+        "key": "PDmgBonus",
+        "value": false
+      }
+    ],
+    "circletTypes": [
+      {
+        "key": "AtkPercent",
+        "value": false
+      },
+      {
+        "key": "CritDmg",
+        "value": false
+      },
+      {
+        "key": "CritRate",
+        "value": true
+      },
+      {
+        "key": "DefPercent",
+        "value": false
+      },
+      {
+        "key": "EmFlat",
+        "value": false
+      },
+      {
+        "key": "HealBonus",
+        "value": false
+      },
+      {
+        "key": "HpPercent",
+        "value": false
+      }
+    ],
+    "subStatTypes": [
+      {
+        "key": "AtkFlat",
+        "value": false
+      },
+      {
+        "key": "AtkPercent",
+        "value": true
+      },
+      {
+        "key": "CritDmg",
+        "value": true
+      },
+      {
+        "key": "CritRate",
+        "value": true
+      },
+      {
+        "key": "DefFlat",
+        "value": false
+      },
+      {
+        "key": "DefPercent",
+        "value": false
+      },
+      {
+        "key": "DmgBonus",
+        "value": false
+      },
+      {
+        "key": "EmFlat",
+        "value": true
+      },
+      {
+        "key": "Er",
+        "value": true
+      },
+      {
+        "key": "HpFlat",
+        "value": false
+      },
+      {
+        "key": "HpPercent",
+        "value": false
+      }
+    ],
+    "subUpCount": 32
+  },
+  "buffs": [
+    {
+      "name": "ALPQ",
+      "type": "CritRate",
+      "value": 0.04,
+      "isEffect": true
+    },
+    {
+      "name": "Set2 Ky uc",
+      "type": "DmgBonus",
+      "value": 0.15,
+      "isEffect": true
+    },
+    {
+      "name": "Set4 Ky uc",
+      "type": "ResistanceReduction",
+      "value": 0.3,
+      "isEffect": false
+    },
+    {
+      "name": "Team 2 Thao",
+      "type": "EmFlat",
+      "value": 50,
+      "isEffect": true
+    },
+    {
+      "name": "Phan ung sinh truong",
+      "type": "EmFlat",
+      "value": 20,
+      "isEffect": false
+    },
+    {
+      "name": "Nahida buff",
+      "type": "EmFlat",
+      "value": 225,
+      "isEffect": false
+    }
+  ],
+  "dmgType": "Avg",
+  "resultType": "ByMain",
+  "resultCount": 10,
+  "conditions": [
+    {
+      "opr": ">",
+      "type": "Er",
+      "value": 1.3
+    }
+  ]
+}
